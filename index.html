@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Marriage Hall">
+  <meta name="description" content="Professional Offline Marriage Hall Management System for PC, Tablet & Mobile by PK-RajWolrd">
+  <title>Marriage Hall Manager — PK-RajWolrd</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23eab308'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+</head>
+<body data-theme="light">
+
+  <div id="splashScreen" class="splash-screen" aria-label="Loading Marriage Hall Manager">
+    <div class="splash-mark">
+      <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-5h6v5M8 10h.01M12 10h.01M16 10h.01"></path></svg>
+    </div>
+    <h1>Marriage Hall</h1>
+    <p>Manager Pro</p>
+    <span class="splash-loader" aria-hidden="true"></span>
+    <small class="splash-developer">PK-RajWorld</small>
+  </div>
+
+  <!-- PIN Lock Overlay (Mandatory Security) -->
+  <div id="pinLockOverlay" class="pin-overlay hidden">
+    <div class="pin-card">
+      <div class="pin-icon">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h2 id="pinTitle">Enter Security PIN</h2>
+      <p id="pinSubtitle" class="text-muted">Marriage Hall Manager is protected</p>
+      <div class="pin-dots">
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+      </div>
+      <div class="pin-keypad">
+        <button class="pin-btn" onclick="app.enterPin('1')">1</button>
+        <button class="pin-btn" onclick="app.enterPin('2')">2</button>
+        <button class="pin-btn" onclick="app.enterPin('3')">3</button>
+        <button class="pin-btn" onclick="app.enterPin('4')">4</button>
+        <button class="pin-btn" onclick="app.enterPin('5')">5</button>
+        <button class="pin-btn" onclick="app.enterPin('6')">6</button>
+        <button class="pin-btn" onclick="app.enterPin('7')">7</button>
+        <button class="pin-btn" onclick="app.enterPin('8')">8</button>
+        <button class="pin-btn" onclick="app.enterPin('9')">9</button>
+        <button class="pin-btn text-sm" onclick="app.clearPin()">Clear</button>
+        <button class="pin-btn" onclick="app.enterPin('0')">0</button>
+        <button class="pin-btn" onclick="app.backspacePin()">⌫</button>
+      </div>
+      <p id="pinError" class="pin-error-text"></p>
+      <div class="pin-developer">PK-RajWolrd Offline Security</div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="logo-emblem">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z"/></svg>
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-name">Marriage Hall</h1>
+            <span class="brand-sub">Manager Pro</span>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <div class="sidebar-quick-action">
+        <button class="btn btn-gold btn-block" onclick="app.openBookingModal()">
+          <span class="btn-icon">+</span>
+          <span>New Booking</span>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group-title">MAIN</div>
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg></span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#bookings" class="nav-item" data-view="bookings">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg></span>
+          <span>Bookings</span>
+          <span class="nav-badge" id="sidebarBookingBadge">0</span>
+        </a>
+        <a href="#calendar" class="nav-item" data-view="calendar">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+          <span>Calendar</span>
+        </a>
+        <a href="#halls" class="nav-item" data-view="halls">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M9 11h2v3H9zm4 0h2v3h-2zM9 17h2v4H9zm4 0h2v4h-2z"/></svg></span>
+          <span>Hall Management</span>
+        </a>
+        <a href="#customers" class="nav-item" data-view="customers">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+          <span>Customers</span>
+        </a>
+
+        <div class="nav-group-title">FINANCE & SERVICES</div>
+        <a href="#payments" class="nav-item" data-view="payments">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></span>
+          <span>Payments</span>
+        </a>
+        <a href="#expenses" class="nav-item" data-view="expenses">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg></span>
+          <span>Expenses</span>
+        </a>
+        <a href="#catering" class="nav-item" data-view="catering">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg></span>
+          <span>Food & Catering</span>
+        </a>
+        <a href="#decorations" class="nav-item" data-view="decorations">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+          <span>Decorations</span>
+        </a>
+        <a href="#staff" class="nav-item" data-view="staff">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+          <span>Staff Management</span>
+        </a>
+
+        <div class="nav-group-title">TOOLS & SYSTEM</div>
+        <a href="#invoices" class="nav-item" data-view="invoices">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>
+          <span>Invoices & Receipts</span>
+        </a>
+        <a href="#reports" class="nav-item" data-view="reports">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
+          <span>Reports & Analytics</span>
+        </a>
+        <a href="#whatsapp" class="nav-item" data-view="whatsapp">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span>
+          <span>WhatsApp Messenger</span>
+        </a>
+        <a href="#settings" class="nav-item" data-view="settings">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+          <span>Settings</span>
+        </a>
+        <a href="#about" class="nav-item" data-view="about">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>
+          <span>About</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="developer-tag">
+          <span>Developed by</span>
+          <strong>PK-RajWolrd</strong>
+        </div>
+        <span class="offline-badge"><span class="pulse-dot"></span> 100% Offline</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+      <!-- Top Navbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="topbar-hall-badge" id="topbarHallName">
+            <span class="hall-indicator"></span>
+            <span id="currentHallDisplayName">Royal Palace Banquet</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <div class="search-input-wrapper">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search customer, booking ID, phone, hall..." autocomplete="off">
+            <button class="search-clear-btn hidden" id="globalSearchClear">✕</button>
+          </div>
+          <div class="global-search-results hidden" id="globalSearchResults"></div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- PWA Install Button (PC/Mobile Browser) -->
+          <button class="btn btn-gold btn-sm hidden" id="installPwaBtn" onclick="app.installPwa()" title="Install Marriage Hall Manager on PC or Mobile">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span class="pwa-btn-text">Install App</span>
+          </button>
+
+          <!-- Fullscreen Toggle (PC & Tablet) -->
+          <button class="icon-btn" id="fullscreenBtn" onclick="app.toggleFullscreen()" aria-label="Toggle Fullscreen" title="Toggle Fullscreen Presentation">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+          </button>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrapper">
+            <button class="icon-btn" id="notificationBtn" aria-label="Notifications" aria-expanded="false" title="Reminders & Notifications">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-badge hidden" id="notificationBadge">0</span>
+            </button>
+            <div class="notification-dropdown hidden" id="notificationDropdown">
+              <div class="dropdown-header">
+                <h3>Offline Reminders</h3>
+                <span id="notificationCountText" class="badge badge-gold">0 alerts</span>
+              </div>
+              <div class="notification-list" id="notificationList">
+                <div class="empty-notification">No active reminders today</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="icon-btn" id="themeToggleBtn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+            <span class="theme-icon-light"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+            <span class="theme-icon-dark hidden"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+          </button>
+
+          <!-- Lock Button -->
+          <button class="icon-btn" id="lockBtn" aria-label="Lock App" title="Lock App Screen" onclick="app.lockApp()">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Container / Views -->
+      <main class="content-body" id="mainContent">
+
+        <!-- ==================== DASHBOARD VIEW ==================== -->
+        <section id="view-dashboard" class="app-view active">
+          <!-- Hero Banner -->
+          <div class="dashboard-hero">
+            <div class="hero-content">
+              <div class="hero-meta">
+                <span class="hero-badge">OFFLINE MANAGEMENT SUITE</span>
+                <span class="hero-date" id="heroTodayDate">Today</span>
+              </div>
+              <h2 class="hero-title" id="heroGreeting">Marriage Hall Manager</h2>
+              <p class="hero-subtitle">Streamlined banqueting, real-time schedule conflict prevention, and complete financial management.</p>
+              <div class="hero-actions">
+                <button class="btn btn-gold" onclick="app.openBookingModal()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  + New Booking
+                </button>
+                <button class="btn btn-white-outline" onclick="app.openCustomerModal()">+ Add Customer</button>
+                <button class="btn btn-white-outline" onclick="app.openPaymentModal()">+ Add Payment</button>
+                <button class="btn btn-white-outline" onclick="app.openExpenseModal()">+ Add Expense</button>
+                <button class="btn btn-white-outline" onclick="app.navigate('calendar')">View Calendar</button>
+                <button class="btn btn-white-outline" onclick="app.navigate('reports')">View Reports</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Cards Grid -->
+          <div class="summary-cards-grid">
+            <div class="stat-card stat-gold" onclick="app.navigate('bookings')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Total Bookings</span>
+                <h3 class="stat-value" id="statTotalBookings">0</h3>
+                <span class="stat-meta">Recorded events</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-emerald" onclick="app.navigate('calendar')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Today's Events</span>
+                <h3 class="stat-value" id="statTodayEvents">0</h3>
+                <span class="stat-meta" id="statTodayDateSub">Events today</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-blue" onclick="app.navigate('calendar')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Upcoming Events</span>
+                <h3 class="stat-value" id="statUpcomingEvents">0</h3>
+                <span class="stat-meta">Next 30 days</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-purple" onclick="app.navigate('customers')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Total Customers</span>
+                <h3 class="stat-value" id="statTotalCustomers">0</h3>
+                <span class="stat-meta">Registered clients</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-teal" onclick="app.navigate('reports')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Total Revenue</span>
+                <h3 class="stat-value" id="statTotalRevenue">Rs. 0</h3>
+                <span class="stat-meta">Total booking value</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-green" onclick="app.navigate('payments')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Paid Amount</span>
+                <h3 class="stat-value" id="statPaidAmount">Rs. 0</h3>
+                <span class="stat-meta text-success">Received payments</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-rose" onclick="app.navigate('payments')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Remaining Amount</span>
+                <h3 class="stat-value" id="statRemainingAmount">Rs. 0</h3>
+                <span class="stat-meta text-danger">Pending balance</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-indigo" onclick="app.navigate('halls')">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M9 11h2v3H9zm4 0h2v3h-2zM9 17h2v4H9zm4 0h2v4h-2z"/></svg>
+              </div>
+              <div class="stat-data">
+                <span class="stat-label">Halls Status</span>
+                <h3 class="stat-value"><span id="statAvailableHalls">0</span> <small>/ <span id="statTotalHalls">0</span></small></h3>
+                <span class="stat-meta"><span id="statOccupiedHalls">0</span> booked today</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="dashboard-charts-grid">
+            <div class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Monthly Revenue</h3>
+                  <span class="card-subtitle">Income received per month</span>
+                </div>
+                <span class="badge badge-emerald">Offline Analytics</span>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-container" id="revenueChartContainer">
+                  <canvas id="revenueChartCanvas" width="450" height="220"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Bookings by Event Type</h3>
+                  <span class="card-subtitle">Wedding, Walima, Mehndi & others</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-container" id="eventTypeChartContainer">
+                  <canvas id="eventTypeChartCanvas" width="300" height="220"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Grid: Today's Events & Recent Bookings -->
+          <div class="dashboard-tables-grid">
+            <!-- Today's Schedule -->
+            <div class="card">
+              <div class="card-header">
+                <div class="flex-align-center gap-2">
+                  <span class="status-dot dot-online"></span>
+                  <h3 class="card-title">Today's & Upcoming Schedule</h3>
+                </div>
+                <button class="btn btn-sm btn-ghost" onclick="app.navigate('calendar')">Calendar →</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="event-timeline" id="dashboardScheduleList">
+                  <div class="empty-state p-4">No events scheduled for today.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Bookings Table -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Latest Bookings</h3>
+                <button class="btn btn-sm btn-gold" onclick="app.openBookingModal()">+ Add</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboardRecentBookingsTable">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== BOOKINGS VIEW ==================== -->
+        <section id="view-bookings" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Booking Management</h2>
+              <p class="view-subtitle">Organize marriage events, timings, catering, and guest logistics</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openBookingModal()">
+                <span>+ Create New Booking</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter & Search Bar -->
+          <div class="filter-card">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="bookingFilterSearch" placeholder="Search by customer, booking ID, phone..." oninput="app.filterBookings()">
+              </div>
+              <div class="filter-select">
+                <select id="bookingFilterHall" onchange="app.filterBookings()">
+                  <option value="">All Halls</option>
+                </select>
+              </div>
+              <div class="filter-select">
+                <select id="bookingFilterEvent" onchange="app.filterBookings()">
+                  <option value="">All Event Types</option>
+                  <option value="Wedding">Wedding</option>
+                  <option value="Walima">Walima</option>
+                  <option value="Mehndi">Mehndi</option>
+                  <option value="Baraat">Baraat</option>
+                  <option value="Engagement">Engagement</option>
+                  <option value="Birthday">Birthday</option>
+                  <option value="Corporate Event">Corporate Event</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="filter-select">
+                <select id="bookingFilterStatus" onchange="app.filterBookings()">
+                  <option value="">All Payment Status</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Partially Paid">Partially Paid</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+              <div class="filter-date">
+                <input type="date" id="bookingFilterDate" onchange="app.filterBookings()" title="Filter by date">
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="app.resetBookingFilters()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Bookings Table / Cards -->
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table" id="bookingsMainTable">
+                  <thead>
+                    <tr>
+                      <th>Booking ID</th>
+                      <th>Customer</th>
+                      <th>Event Type</th>
+                      <th>Hall</th>
+                      <th>Date & Time</th>
+                      <th>Guests</th>
+                      <th>Total (Rs.)</th>
+                      <th>Advance</th>
+                      <th>Remaining</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bookingsTableBody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== CALENDAR VIEW ==================== -->
+        <section id="view-calendar" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Banquet Event Calendar</h2>
+              <p class="view-subtitle">Monthly, weekly and daily event tracking with conflict alerts</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openBookingModal()">+ Book Hall</button>
+            </div>
+          </div>
+
+          <div class="calendar-container card">
+            <div class="calendar-toolbar">
+              <div class="calendar-nav-controls">
+                <button class="btn btn-secondary btn-sm" onclick="app.prevCalendarMonth()">◀ Previous</button>
+                <button class="btn btn-secondary btn-sm" onclick="app.todayCalendarMonth()">Today</button>
+                <button class="btn btn-secondary btn-sm" onclick="app.nextCalendarMonth()">Next ▶</button>
+              </div>
+              <h3 class="calendar-month-title" id="calendarMonthTitle">September 2026</h3>
+              <div class="calendar-legend">
+                <span class="legend-item"><span class="legend-badge badge-booked"></span> Booked</span>
+                <span class="legend-item"><span class="legend-badge badge-avail"></span> Available</span>
+                <span class="legend-item"><span class="legend-badge badge-today"></span> Today</span>
+              </div>
+            </div>
+
+            <!-- Calendar Days Header -->
+            <div class="calendar-weekdays">
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar-grid" id="calendarGrid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Selected Day Events Drawer / Section -->
+          <div class="card mt-4" id="calendarSelectedDayEventsCard">
+            <div class="card-header">
+              <h3 class="card-title" id="calendarSelectedDayTitle">Events on Selected Date</h3>
+              <button class="btn btn-sm btn-gold" onclick="app.openBookingModalForSelectedDate()">+ Book This Date</button>
+            </div>
+            <div class="card-body" id="calendarSelectedDayEventsList">
+              <p class="text-muted">Click on any date in the calendar above to inspect bookings, timings, and availability.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== HALLS VIEW ==================== -->
+        <section id="view-halls" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Hall Management</h2>
+              <p class="view-subtitle">Configure banquets, guest capacities, rental rates and amenities</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openHallModal()">+ Add New Hall</button>
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="hallSearchInput" placeholder="Search hall name, number, address..." oninput="app.filterHalls()">
+              </div>
+              <div class="filter-select">
+                <select id="hallStatusFilter" onchange="app.filterHalls()">
+                  <option value="">All Statuses</option>
+                  <option value="Available">Available</option>
+                  <option value="Booked">Booked</option>
+                  <option value="Maintenance">Maintenance</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="halls-grid" id="hallsGridContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== CUSTOMERS VIEW ==================== -->
+        <section id="view-customers" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Customer Management</h2>
+              <p class="view-subtitle">Client records, contact numbers, CNIC references and past event histories</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openCustomerModal()">+ Add Customer</button>
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="customerSearchInput" placeholder="Search customer name, phone, CNIC, address..." oninput="app.filterCustomers()">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table" id="customersTable">
+                  <thead>
+                    <tr>
+                      <th>Customer Name</th>
+                      <th>Father/Husband</th>
+                      <th>Phone</th>
+                      <th>WhatsApp</th>
+                      <th>CNIC / Ref</th>
+                      <th>Address</th>
+                      <th>Total Bookings</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customersTableBody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== PAYMENTS VIEW ==================== -->
+        <section id="view-payments" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Payment Management</h2>
+              <p class="view-subtitle">Track advance, partial, and final settlements with automated receipt generation</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openPaymentModal()">+ Record Payment</button>
+            </div>
+          </div>
+
+          <!-- Financial Snapshot -->
+          <div class="payment-stats-grid">
+            <div class="finance-pill pill-green">
+              <span>Total Received</span>
+              <strong id="paymentsTotalReceived">Rs. 0</strong>
+            </div>
+            <div class="finance-pill pill-amber">
+              <span>Total Pending</span>
+              <strong id="paymentsTotalPending">Rs. 0</strong>
+            </div>
+            <div class="finance-pill pill-blue">
+              <span>Total Invoiced</span>
+              <strong id="paymentsTotalInvoiced">Rs. 0</strong>
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="paymentSearchInput" placeholder="Search by payment ID, booking, customer..." oninput="app.filterPayments()">
+              </div>
+              <div class="filter-select">
+                <select id="paymentMethodFilter" onchange="app.filterPayments()">
+                  <option value="">All Payment Methods</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Easypaisa">Easypaisa</option>
+                  <option value="JazzCash">JazzCash</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Payment ID</th>
+                      <th>Date</th>
+                      <th>Booking ID</th>
+                      <th>Customer</th>
+                      <th>Amount (Rs.)</th>
+                      <th>Method</th>
+                      <th>Notes</th>
+                      <th>Receipt</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="paymentsTableBody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== EXPENSES VIEW ==================== -->
+        <section id="view-expenses" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Expense Management</h2>
+              <p class="view-subtitle">Track operational costs including electricity, staff wages, maintenance & decor</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openExpenseModal()">+ Add Expense</button>
+            </div>
+          </div>
+
+          <!-- Expense summary cards -->
+          <div class="dashboard-charts-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Total Expenses Recorded</h3>
+                  <span class="card-subtitle">All categories combined</span>
+                </div>
+                <h2 class="text-danger" id="expensesTotalValue">Rs. 0</h2>
+              </div>
+              <div class="card-body p-0">
+                <div class="category-expense-bars" id="expenseCategoryBars">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Expenses by Category</h3>
+                <span class="card-subtitle">Breakdown chart</span>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-container" id="expenseChartContainer">
+                  <canvas id="expenseChartCanvas" width="320" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-card mt-4">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="expenseSearchInput" placeholder="Search expense title, description..." oninput="app.filterExpenses()">
+              </div>
+              <div class="filter-select">
+                <select id="expenseCategoryFilter" onchange="app.filterExpenses()">
+                  <option value="">All Categories</option>
+                  <option value="Electricity">Electricity</option>
+                  <option value="Water">Water</option>
+                  <option value="Decoration">Decoration</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Cleaning">Cleaning</option>
+                  <option value="Food">Food</option>
+                  <option value="Maintenance">Maintenance</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Security">Security</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Expense ID</th>
+                      <th>Date</th>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Amount (Rs.)</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expensesTableBody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== CATERING VIEW ==================== -->
+        <section id="view-catering" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Food & Catering Packages</h2>
+              <p class="view-subtitle">Menu packages, food item checklists, and per-head pricing calculations</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openCateringModal()">+ Add Menu Package</button>
+            </div>
+          </div>
+
+          <div class="catering-grid" id="cateringGridContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== DECORATIONS VIEW ==================== -->
+        <section id="view-decorations" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Decoration Management</h2>
+              <p class="view-subtitle">Stage designs, floral arches, banquet lighting and custom theme packages</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openDecorationModal()">+ Add Decoration Package</button>
+            </div>
+          </div>
+
+          <div class="decorations-grid" id="decorationsGridContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== STAFF VIEW ==================== -->
+        <section id="view-staff" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Staff Management</h2>
+              <p class="view-subtitle">Team directory, role allocation, monthly salaries and contact details</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-gold" onclick="app.openStaffModal()">+ Add Staff Member</button>
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <div class="filter-row">
+              <div class="search-field">
+                <input type="text" id="staffSearchInput" placeholder="Search staff name, phone, position..." oninput="app.filterStaff()">
+              </div>
+              <div class="filter-select">
+                <select id="staffPositionFilter" onchange="app.filterStaff()">
+                  <option value="">All Positions</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Waiter">Waiter</option>
+                  <option value="Security">Security</option>
+                  <option value="Cleaner">Cleaner</option>
+                  <option value="Cook">Cook</option>
+                  <option value="Decorator">Decorator</option>
+                  <option value="Driver">Driver</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Staff Name</th>
+                      <th>Position</th>
+                      <th>Phone</th>
+                      <th>Salary (Rs.)</th>
+                      <th>Joining Date</th>
+                      <th>Address</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="staffTableBody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== INVOICES & RECEIPTS VIEW ==================== -->
+        <section id="view-invoices" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Invoices, Receipts & Booking Cards</h2>
+              <p class="view-subtitle">Generate, print, and share commercial bills and formal receipts</p>
+            </div>
+          </div>
+
+          <div class="tabs-nav invoice-tabs" role="tablist" aria-label="Invoice documents">
+            <button class="tab-btn active" role="tab" aria-selected="true" onclick="app.switchInvoiceTab('invoiceListTab', this)">Invoices</button>
+            <button class="tab-btn" role="tab" aria-selected="false" onclick="app.switchInvoiceTab('receiptListTab', this)">Receipts</button>
+            <button class="tab-btn" role="tab" aria-selected="false" onclick="app.switchInvoiceTab('cardListTab', this)">Booking Cards</button>
+          </div>
+
+          <!-- Invoices Tab -->
+          <div class="tab-content active" id="invoiceListTab">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Generated Invoices</h3>
+                <span class="card-subtitle">Click to preview, print or download PDF</span>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Invoice / Booking #</th>
+                        <th>Customer</th>
+                        <th>Hall</th>
+                        <th>Event Date</th>
+                        <th>Total Amount</th>
+                        <th>Paid</th>
+                        <th>Remaining</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="invoiceTableBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Receipts Tab -->
+          <div class="tab-content" id="receiptListTab">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Payment Receipts</h3>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Receipt #</th>
+                        <th>Payment Date</th>
+                        <th>Customer</th>
+                        <th>Booking #</th>
+                        <th>Amount Paid</th>
+                        <th>Method</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="receiptTableBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Cards Tab -->
+          <div class="tab-content" id="cardListTab">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Printable Customer Booking Cards</h3>
+                <span class="card-subtitle">Compact VIP pass cards for customers</span>
+              </div>
+              <div class="card-body">
+                <div class="cards-preview-grid" id="bookingCardsGrid">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== REPORTS VIEW ==================== -->
+        <section id="view-reports" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Reports & Financial Analytics</h2>
+              <p class="view-subtitle">Profit & loss statements, booking distributions, and operational reports</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-secondary" onclick="app.previewReport()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Print Summary Statement
+              </button>
+            </div>
+          </div>
+
+          <!-- Date Filters -->
+          <div class="filter-card reports-filter-panel">
+            <div class="reports-filter-heading">
+              <div>
+                <strong class="filter-panel-title">Report Period</strong>
+                <span class="filter-panel-subtitle">Choose a quick range or select exact dates</span>
+              </div>
+            </div>
+            <div class="filter-row reports-filter-row">
+              <span class="font-bold text-sm">Timeframe:</span>
+              <div class="timeframe-buttons">
+                <button class="btn btn-sm btn-filter active" onclick="app.setReportTimeframe('today', this)">Today</button>
+                <button class="btn btn-sm btn-filter" onclick="app.setReportTimeframe('week', this)">This Week</button>
+                <button class="btn btn-sm btn-filter" onclick="app.setReportTimeframe('month', this)">This Month</button>
+                <button class="btn btn-sm btn-filter" onclick="app.setReportTimeframe('year', this)">This Year</button>
+                <button class="btn btn-sm btn-filter" onclick="app.setReportTimeframe('all', this)">All Time</button>
+              </div>
+              <div class="custom-date-range reports-custom-range">
+                <span class="custom-range-label">Custom range</span>
+                <label class="report-date-field">
+                  <span>From</span>
+                  <input type="date" id="reportStartDate" onchange="app.applyCustomReportDates()" aria-label="Report start date">
+                </label>
+                <span class="custom-range-separator">to</span>
+                <label class="report-date-field">
+                  <span>To</span>
+                  <input type="date" id="reportEndDate" onchange="app.applyCustomReportDates()" aria-label="Report end date">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profit Calculation Box -->
+          <div class="profit-calculator-card">
+            <div class="profit-box">
+              <span class="profit-sub">Total Revenue</span>
+              <h3 class="profit-val text-success" id="reportRevenueVal">Rs. 0</h3>
+            </div>
+            <div class="profit-operator">−</div>
+            <div class="profit-box">
+              <span class="profit-sub">Total Expenses</span>
+              <h3 class="profit-val text-danger" id="reportExpensesVal">Rs. 0</h3>
+            </div>
+            <div class="profit-operator">=</div>
+            <div class="profit-box profit-highlight">
+              <span class="profit-sub">Net Profit</span>
+              <h3 class="profit-val text-gold" id="reportProfitVal">Rs. 0</h3>
+            </div>
+          </div>
+
+          <div class="reports-breakdown-grid">
+            <!-- Bookings Report -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Bookings Breakdown</h3>
+              </div>
+              <div class="card-body">
+                <div class="metric-list">
+                  <div class="metric-row">
+                    <span>Total Bookings</span>
+                    <strong id="reportTotalBookings">0</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Completed Events</span>
+                    <strong class="text-success" id="reportCompletedBookings">0</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Upcoming Events</span>
+                    <strong class="text-blue" id="reportUpcomingBookings">0</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Today's Events</span>
+                    <strong class="text-emerald" id="reportTodayBookings">0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Revenue Report -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Revenue & Receivables</h3>
+              </div>
+              <div class="card-body">
+                <div class="metric-list">
+                  <div class="metric-row">
+                    <span>Total Invoiced</span>
+                    <strong id="reportTotalInvoiced">Rs. 0</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Paid Collection</span>
+                    <strong class="text-success" id="reportPaidCollection">Rs. 0</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Pending Receivables</span>
+                    <strong class="text-danger" id="reportPendingReceivables">Rs. 0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== WHATSAPP VIEW ==================== -->
+        <section id="view-whatsapp" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">WhatsApp Message Generator</h2>
+              <p class="view-subtitle">Generate polite, ready-to-send booking confirmations and payment reminders (no API required)</p>
+            </div>
+          </div>
+
+          <div class="whatsapp-layout-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Message Builder</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Select Booking to Prepare Message</label>
+                  <select class="form-control" id="waBookingSelect" onchange="app.generateWhatsAppMessage()">
+                    <option value="">-- Choose a Booking --</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Customer Phone (WhatsApp)</label>
+                  <input type="text" class="form-control" id="waPhoneInput" placeholder="e.g. 03001234567 or 923001234567">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">WhatsApp Text (Optional - Add Your Own Message)</label>
+                  <textarea class="form-control" id="waMessageText" rows="10" placeholder="Write your WhatsApp message here. The image will be shared separately."></textarea>
+                </div>
+
+                <div class="flex-align-center gap-3">
+                  <button class="btn btn-whatsapp" onclick="app.sendWhatsAppMessage()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06s-1.05-.39-2-1.23c-.74-.66-1.23-1.47-1.38-1.72s-.02-.38.11-.51c.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.34-.76-1.84c-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.29z"/></svg>
+                    Share on WhatsApp
+                  </button>
+                  <button class="btn btn-secondary" onclick="app.copyWhatsAppMessage()">Copy Text</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Smartphone Preview</h3>
+              </div>
+              <div class="card-body">
+                <div class="whatsapp-card-preview">
+                  <div class="whatsapp-card-image-wrap">
+                    <img id="waCardPreview" alt="WhatsApp customer detail card preview">
+                    <button class="whatsapp-card-download" type="button" onclick="app.downloadWhatsAppCard()" aria-label="Download booking card" title="Download booking card">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+                    </button>
+                  </div>
+                  <div class="whatsapp-card-empty" id="waCardEmpty">Select a booking to create the customer card.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== SETTINGS VIEW ==================== -->
+        <section id="view-settings" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">System Settings</h2>
+              <p class="view-subtitle">Configure business profile, currency, invoice footer, PIN security and data backups</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Business Profile -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Marriage Hall Information</h3>
+              </div>
+              <div class="card-body">
+                <form id="settingsForm" onsubmit="app.saveSettings(event)">
+                  <div class="form-group">
+                    <label class="form-label">Marriage Hall Name</label>
+                    <input type="text" class="form-control" id="settingHallName" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Hall Address</label>
+                    <input type="text" class="form-control" id="settingAddress" required>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Phone Number</label>
+                      <input type="text" class="form-control" id="settingPhone" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">WhatsApp Number</label>
+                      <input type="text" class="form-control" id="settingWhatsApp" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Currency Symbol</label>
+                      <input type="text" class="form-control" id="settingCurrency" value="Rs." required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Default Tax Rate (%)</label>
+                      <input type="number" class="form-control" id="settingTax" value="0" min="0" max="100">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Invoice Footer Note</label>
+                    <textarea class="form-control" id="settingInvoiceFooter" rows="2">Thank you for choosing our Marriage Hall. We wish you a blissful celebration!</textarea>
+                  </div>
+                  <button type="submit" class="btn btn-gold">Save Hall Profile</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- PIN Lock & Security -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Offline PIN Security</h3>
+              </div>
+              <div class="card-body">
+                <div class="setting-toggle-row">
+                  <div>
+                    <strong>Enable PIN Protection</strong>
+                    <p class="text-muted text-sm">Require a 4-digit PIN every time the app opens</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="settingPinEnabled" onchange="app.togglePinProtection(this.checked)">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+
+                <div class="pin-change-section mt-4" id="pinChangeSection">
+                  <div class="form-group">
+                    <label class="form-label">Change PIN (4 Digits)</label>
+                    <input type="password" class="form-control" id="newPinInput" maxlength="4" placeholder="Enter new 4-digit PIN">
+                  </div>
+                  <button class="btn btn-secondary btn-sm" onclick="app.updatePin()">Update PIN</button>
+                </div>
+
+                <div class="setting-toggle-row mt-4">
+                  <div>
+                    <strong>Interface Sounds</strong>
+                    <p class="text-muted text-sm">Play a sound on keyboard and touch actions</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="settingSoundEnabled" checked onchange="app.toggleSound(this.checked)">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+
+                <div class="data-privacy-notice mt-4">
+                  <div class="privacy-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  </div>
+                  <div>
+                    <strong>Data Privacy & Offline Assurance</strong>
+                    <p class="text-muted text-sm">Your data is stored 100% locally on this device using IndexedDB. No external servers or cloud databases are contacted.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking Notifications -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Booking Notifications</h3>
+              </div>
+              <div class="card-body">
+                <p class="text-muted text-sm mb-3">Get an alert when today's booking date arrives. Keep the app installed and allow notifications.</p>
+                <div class="flex-align-center gap-2 flex-wrap">
+                  <button type="button" class="btn btn-gold btn-sm" onclick="app.requestNotificationPermission()">Enable Notifications</button>
+                  <span id="notificationPermissionStatus" class="text-sm text-muted">Checking permission...</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Backup & Restore -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Data Backup & Restore</h3>
+              </div>
+              <div class="card-body">
+                <p class="text-muted text-sm mb-3">Download a complete JSON snapshot of all halls, bookings, customers, payments, expenses, catering, and staff.</p>
+                <div class="flex-align-center gap-2 mb-4">
+                  <button class="btn btn-gold" onclick="app.exportBackupJSON()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Backup (JSON)
+                  </button>
+                  <label class="btn btn-secondary btn-file-label">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Restore from JSON
+                    <input type="file" id="restoreFileInput" accept=".json" onchange="app.importBackupJSON(event)" style="display:none;">
+                  </label>
+                </div>
+
+                <div class="danger-zone">
+                  <h4 class="text-danger font-bold text-sm">Danger Zone</h4>
+                  <p class="text-muted text-sm mb-2">Wipe all local data from this device. This action cannot be undone.</p>
+                  <div class="flex-align-center gap-2">
+                    <button class="btn btn-danger btn-sm" onclick="app.confirmResetAllData()">Reset / Clear All Data</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Multi-Device & Platform Support -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Multi-Device Compatibility</h3>
+              </div>
+              <div class="card-body">
+                <div class="device-status-box mb-3">
+                  <div class="flex-align-center gap-2 mb-2">
+                    <span class="badge badge-gold" id="detectedPlatformBadge">Detecting Device...</span>
+                    <span class="badge badge-success">Offline Ready</span>
+                  </div>
+                  <p class="text-muted text-sm" id="detectedPlatformDescription">Optimized for PC Widescreen, Tablet Touch Screens, and Mobile Phones.</p>
+                </div>
+                <div class="flex-align-center gap-2 flex-wrap">
+                  <button class="btn btn-gold btn-sm" id="settingsInstallBtn" onclick="app.installPwa()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Install to Desktop / Mobile
+                  </button>
+                  <button class="btn btn-secondary btn-sm" onclick="app.toggleFullscreen()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                    Toggle Fullscreen
+                  </button>
+                  <button class="btn btn-secondary btn-sm" onclick="app.testPrintPage()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    Test Print
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ABOUT VIEW ==================== -->
+        <section id="view-about" class="app-view">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">About Marriage Hall Manager</h2>
+              <p class="view-subtitle">Offline enterprise software for banquet halls and event venues</p>
+            </div>
+          </div>
+
+          <div class="card about-card">
+            <div class="card-body">
+              <div class="about-hero">
+                <div class="about-logo">
+                  <svg viewBox="0 0 24 24" width="48" height="48" fill="#eab308"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z"/></svg>
+                </div>
+                <h2>Marriage Hall Manager</h2>
+                <span class="badge badge-gold">Version 1.0 (Production Release)</span>
+                <p class="lead-text mt-3">An offline-first, privacy-respecting management application engineered for marriage halls, banquet lawns, and marquee centers.</p>
+              </div>
+
+              <div class="developer-showcase">
+                <span class="dev-label">System Architecture & Engineering</span>
+                <h3 class="dev-name">Developed by PK-RajWolrd</h3>
+                <p class="text-muted text-sm">Crafted with modern HTML5, CSS3, Vanilla JavaScript, IndexedDB, and Progressive Web Application (PWA) offline architecture.</p>
+              </div>
+
+              <div class="feature-checklist-grid mt-4">
+                <div class="check-item">✔ 100% Offline with Zero Cloud Reliance</div>
+                <div class="check-item">✔ Automated Date & Time Conflict Prevention</div>
+                <div class="check-item">✔ Interactive Banquet Booking Calendar</div>
+                <div class="check-item">✔ Multi-Course Catering & Food Calculations</div>
+                <div class="check-item">✔ Decorative Stage & Lighting Package Addons</div>
+                <div class="check-item">✔ Advance, Partial & Full Payment Ledgers</div>
+                <div class="check-item">✔ Printable GST/Commercial Tax Invoices</div>
+                <div class="check-item">✔ Instant WhatsApp Message Generator</div>
+                <div class="check-item">✔ Staff Directory & Monthly Payroll Tracker</div>
+                <div class="check-item">✔ Profit & Loss Reporting with Chart Analytics</div>
+                <div class="check-item">✔ Offline 4-Digit Security PIN Lock</div>
+                <div class="check-item">✔ Single-Click JSON Backup & Restore</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Mobile Floating Action Button (FAB) -->
+      <button class="mobile-fab" id="mobileFab" onclick="app.openBookingModal()" aria-label="Create New Booking" title="New Booking">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span class="fab-text">New Booking</span>
+      </button>
+
+      <!-- Mobile Bottom Navigation -->
+      <nav class="mobile-bottom-nav">
+        <a href="#dashboard" class="bnav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span>Home</span>
+        </a>
+        <a href="#bookings" class="bnav-item" data-view="bookings">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Bookings</span>
+        </a>
+        <a href="#calendar" class="bnav-item" data-view="calendar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Calendar</span>
+        </a>
+        <a href="#payments" class="bnav-item" data-view="payments">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span>Payments</span>
+        </a>
+        <button class="bnav-item" id="bnavMoreBtn" onclick="app.toggleMobileMoreMenu()">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+          <span>More</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile "More" Sheet Overlay -->
+  <div class="more-sheet-overlay hidden" id="moreSheetOverlay" onclick="app.toggleMobileMoreMenu(false)">
+    <div class="more-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-header">
+        <h3>All Management Modules</h3>
+        <button class="icon-btn" onclick="app.toggleMobileMoreMenu(false)">✕</button>
+      </div>
+      <div class="more-sheet-grid">
+        <a href="#customers" class="more-item" onclick="app.navigate('customers'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
+          <span>Customers</span>
+        </a>
+        <a href="#halls" class="more-item" onclick="app.navigate('halls'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M9 11h2v3H9zm4 0h2v3h-2zM9 17h2v4H9zm4 0h2v4h-2z"/></svg></div>
+          <span>Halls</span>
+        </a>
+        <a href="#expenses" class="more-item" onclick="app.navigate('expenses'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path></svg></div>
+          <span>Expenses</span>
+        </a>
+        <a href="#catering" class="more-item" onclick="app.navigate('catering'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg></div>
+          <span>Catering</span>
+        </a>
+        <a href="#decorations" class="more-item" onclick="app.navigate('decorations'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+          <span>Decoration</span>
+        </a>
+        <a href="#staff" class="more-item" onclick="app.navigate('staff'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+          <span>Staff</span>
+        </a>
+        <a href="#invoices" class="more-item" onclick="app.navigate('invoices'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg></div>
+          <span>Invoices</span>
+        </a>
+        <a href="#reports" class="more-item" onclick="app.navigate('reports'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+          <span>Reports</span>
+        </a>
+        <a href="#whatsapp" class="more-item" onclick="app.navigate('whatsapp'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+          <span>WhatsApp</span>
+        </a>
+        <a href="#settings" class="more-item" onclick="app.navigate('settings'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle></svg></div>
+          <span>Settings</span>
+        </a>
+        <a href="#about" class="more-item" onclick="app.navigate('about'); app.toggleMobileMoreMenu(false);">
+          <div class="more-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line></svg></div>
+          <span>About</span>
+        </a>
+      </div>
+      <div class="sheet-footer">
+        <span>Developed by <strong>PK-RajWolrd</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- BOOKING MODAL -->
+  <div class="modal-overlay hidden" id="bookingModal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3 id="bookingModalTitle">Create New Booking</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('bookingModal')">✕</button>
+      </div>
+      <form id="bookingForm" onsubmit="app.saveBooking(event)">
+        <input type="hidden" id="bookingEditId">
+        <div class="modal-body">
+          <!-- Conflict Alert Banner -->
+          <div class="conflict-alert hidden" id="bookingConflictAlert">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span id="bookingConflictMessage">This hall is already booked for this date and time.</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Booking ID</label>
+              <input type="text" class="form-control" id="bookingCode" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Customer <span class="text-danger">*</span></label>
+              <select class="form-control" id="bookingCustomerId" required onchange="app.onBookingCustomerChange()">
+                <option value="">-- Select or Add Customer --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Customer Phone</label>
+              <input type="text" class="form-control" id="bookingPhone" placeholder="Auto-filled or manual" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Event Type <span class="text-danger">*</span></label>
+              <select class="form-control" id="bookingEventType" required>
+                <option value="Wedding">Wedding</option>
+                <option value="Walima">Walima</option>
+                <option value="Mehndi">Mehndi</option>
+                <option value="Baraat">Baraat</option>
+                <option value="Engagement">Engagement</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Corporate Event">Corporate Event</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Select Hall <span class="text-danger">*</span></label>
+              <select class="form-control" id="bookingHallId" required onchange="app.onBookingHallOrTimeChange()">
+                <option value="">-- Choose Hall --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Event Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="bookingDate" required onchange="app.onBookingHallOrTimeChange()">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Time <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" id="bookingStartTime" value="19:00" required onchange="app.onBookingHallOrTimeChange()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Time <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" id="bookingEndTime" value="23:00" required onchange="app.onBookingHallOrTimeChange()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Guests Count <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="bookingGuests" value="200" min="1" required oninput="app.recalculateBookingTotals()">
+              <small class="text-muted" id="bookingGuestRateNote">Per Person Rate: Rs. 0</small>
+            </div>
+          </div>
+
+          <!-- Services & Packages Selection -->
+          <div class="form-section-title">Packages & Services</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Catering Menu Package</label>
+              <select class="form-control" id="bookingCateringId" onchange="app.recalculateBookingTotals()">
+                <option value="" data-price="0">-- None (Self Catering) --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Decoration Package</label>
+              <select class="form-control" id="bookingDecorationId" onchange="app.recalculateBookingTotals()">
+                <option value="" data-price="0">-- None (Standard Basic) --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Financial Calculation Breakdown -->
+          <div class="financial-breakdown-card">
+            <div class="breakdown-grid">
+              <div class="form-group">
+                <label class="form-label">Hall Rent (Rs.)</label>
+                <input type="number" class="form-control" id="bookingHallRent" value="0" min="0" oninput="app.recalculateBookingTotals()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Food Charges (Rs.)</label>
+                <input type="number" class="form-control" id="bookingFoodCharges" value="0" min="0" oninput="app.recalculateBookingTotals()">
+                <small class="text-muted" id="bookingFoodRateNote"></small>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Decor Charges (Rs.)</label>
+                <input type="number" class="form-control" id="bookingDecorCharges" value="0" min="0" oninput="app.recalculateBookingTotals()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Other Charges (Rs.)</label>
+                <input type="number" class="form-control" id="bookingOtherCharges" value="0" min="0" oninput="app.recalculateBookingTotals()">
+              </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label font-bold">Total Amount (Rs.)</label>
+                <input type="number" class="form-control total-input" id="bookingTotalAmount" value="0" readonly>
+              </div>
+              <div class="form-group">
+                <label class="form-label font-bold text-success">Advance Payment (Rs.)</label>
+                <input type="number" class="form-control" id="bookingAdvancePayment" value="0" min="0" oninput="app.recalculateBookingTotals()">
+              </div>
+              <div class="form-group">
+                <label class="form-label font-bold text-danger">Remaining Balance (Rs.)</label>
+                <input type="number" class="form-control" id="bookingRemainingAmount" value="0" readonly>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Payment Status</label>
+                <input type="text" class="form-control" id="bookingPaymentStatusDisplay" value="Pending" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label class="form-label">Special Instructions & Notes</label>
+            <textarea class="form-control" id="bookingNotes" rows="2" placeholder="Stage preferences, sound system notes, parking requirements..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('bookingModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold" id="bookingSubmitBtn">Save Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- HALL MODAL -->
+  <div class="modal-overlay hidden" id="hallModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="hallModalTitle">Add Marriage Hall</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('hallModal')">✕</button>
+      </div>
+      <form id="hallForm" onsubmit="app.saveHall(event)">
+        <input type="hidden" id="hallEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Hall Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="hallName" placeholder="e.g. Royal Grand Hall" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hall Number / Code</label>
+              <input type="text" class="form-control" id="hallNumber" placeholder="e.g. H-01" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Capacity (Guests) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="hallCapacity" placeholder="e.g. 500" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Standard Rent (Rs.) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="hallRent" placeholder="e.g. 150000" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-control" id="hallStatus">
+                <option value="Available">Available</option>
+                <option value="Booked">Booked</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Facilities / Amenities</label>
+              <input type="text" class="form-control" id="hallFacilities" placeholder="AC, Stage, VIP Lounges, Generator">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Address / Location</label>
+            <input type="text" class="form-control" id="hallAddress" placeholder="Main Boulevard, Sector 4">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="hallDescription" rows="2" placeholder="Banquet details, luxury interior, parking size..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('hallModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Hall</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CUSTOMER MODAL -->
+  <div class="modal-overlay hidden" id="customerModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="customerModalTitle">Add Customer</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('customerModal')">✕</button>
+      </div>
+      <form id="customerForm" onsubmit="app.saveCustomer(event)">
+        <input type="hidden" id="customerEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Customer Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="custName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Father / Husband Name</label>
+              <input type="text" class="form-control" id="custFather" placeholder="Guardian Name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="custPhone" placeholder="0300-1234567" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">WhatsApp Number</label>
+              <input type="tel" class="form-control" id="custWhatsApp" placeholder="0300-1234567">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">CNIC / Reference ID</label>
+              <input type="text" class="form-control" id="custCNIC" placeholder="XXXXX-XXXXXXX-X">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" id="custAddress" placeholder="City, Street address">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes & Preferences</label>
+            <textarea class="form-control" id="custNotes" rows="2" placeholder="Client notes, payment reliability..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('customerModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-overlay hidden" id="paymentModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="paymentModalTitle">Record Payment</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('paymentModal')">✕</button>
+      </div>
+      <form id="paymentForm" onsubmit="app.savePayment(event)">
+        <input type="hidden" id="paymentEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Select Booking <span class="text-danger">*</span></label>
+              <select class="form-control" id="payBookingId" required onchange="app.onPaymentBookingSelected()">
+                <option value="">-- Choose Booking --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Customer</label>
+              <input type="text" class="form-control" id="payCustomerName" readonly>
+            </div>
+          </div>
+
+          <div class="payment-balance-preview" id="paymentBalanceBanner">
+            <div>
+              <span class="text-muted text-xs">Total Invoiced</span>
+              <h4 id="payPrevTotal">Rs. 0</h4>
+            </div>
+            <div>
+              <span class="text-muted text-xs">Already Paid</span>
+              <h4 class="text-success" id="payPrevPaid">Rs. 0</h4>
+            </div>
+            <div>
+              <span class="text-muted text-xs">Remaining Balance</span>
+              <h4 class="text-danger" id="payPrevRemaining">Rs. 0</h4>
+            </div>
+          </div>
+
+          <div class="form-row mt-3">
+            <div class="form-group">
+              <label class="form-label">Payment Amount (Rs.) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="payAmount" min="1" placeholder="Enter amount received" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="payDate" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Method <span class="text-danger">*</span></label>
+            <select class="form-control" id="payMethod" required>
+              <option value="Cash">Cash</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Easypaisa">Easypaisa</option>
+              <option value="JazzCash">JazzCash</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes / Transaction Reference</label>
+            <input type="text" class="form-control" id="payNotes" placeholder="Cheque #, Bank slip ref or receiver details">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('paymentModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Record & Generate Receipt</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EXPENSE MODAL -->
+  <div class="modal-overlay hidden" id="expenseModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="expenseModalTitle">Add Expense</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('expenseModal')">✕</button>
+      </div>
+      <form id="expenseForm" onsubmit="app.saveExpense(event)">
+        <input type="hidden" id="expenseEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Expense Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="expTitle" placeholder="e.g. Stage Flower Purchase" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category <span class="text-danger">*</span></label>
+              <select class="form-control" id="expCategory" required>
+                <option value="Electricity">Electricity</option>
+                <option value="Water">Water</option>
+                <option value="Decoration">Decoration</option>
+                <option value="Staff">Staff</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Food">Food</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Security">Security</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Amount (Rs.) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="expAmount" min="1" placeholder="Amount spent" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="expDate" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description / Paid To</label>
+            <textarea class="form-control" id="expDescription" rows="2" placeholder="Vendor name, bill number, notes..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('expenseModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CATERING MODAL -->
+  <div class="modal-overlay hidden" id="cateringModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="cateringModalTitle">Add Catering Menu Package</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('cateringModal')">✕</button>
+      </div>
+      <form id="cateringForm" onsubmit="app.saveCatering(event)">
+        <input type="hidden" id="cateringEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Menu Package Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="catName" placeholder="e.g. Royal Wedding Feast" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Price Per Person (Rs.) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="catPrice" placeholder="e.g. 1500" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Food Items Included (Comma separated) <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="catItems" rows="3" placeholder="Mutton Biryani, Chicken Karahi, Seekh Kabab, Roghani Naan, Fresh Salad, Raita, Kheer, Cold Drinks" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Package Description</label>
+            <input type="text" class="form-control" id="catDescription" placeholder="VIP service with live tandoor and uniformed waiters">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('cateringModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Package</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DECORATION MODAL -->
+  <div class="modal-overlay hidden" id="decorationModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="decorationModalTitle">Add Decoration Package</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('decorationModal')">✕</button>
+      </div>
+      <form id="decorationForm" onsubmit="app.saveDecoration(event)">
+        <input type="hidden" id="decorationEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Package Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="decName" placeholder="e.g. Premium Stage & Floral Theme" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Package Price (Rs.) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="decPrice" placeholder="e.g. 75000" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Features & Description <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="decDescription" rows="3" placeholder="Grand golden stage backdrop, fresh rose & jasmine entry aisle, LED ambient chandeliers, royal couple sofa" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('decorationModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Decoration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- STAFF MODAL -->
+  <div class="modal-overlay hidden" id="staffModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="staffModalTitle">Add Staff Member</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('staffModal')">✕</button>
+      </div>
+      <form id="staffForm" onsubmit="app.saveStaff(event)">
+        <input type="hidden" id="staffEditId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Staff Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="stfName" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Position / Role <span class="text-danger">*</span></label>
+              <select class="form-control" id="stfPosition" required>
+                <option value="Manager">Manager</option>
+                <option value="Waiter">Waiter</option>
+                <option value="Security">Security</option>
+                <option value="Cleaner">Cleaner</option>
+                <option value="Cook">Cook</option>
+                <option value="Decorator">Decorator</option>
+                <option value="Driver">Driver</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="stfPhone" placeholder="0300-0000000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Salary (Rs. / Month) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="stfSalary" min="0" placeholder="e.g. 40000" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Joining Date</label>
+              <input type="date" class="form-control" id="stfJoiningDate">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" id="stfAddress" placeholder="Residential area">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <input type="text" class="form-control" id="stfNotes" placeholder="Emergency contact or duty shift">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('staffModal')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Staff Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PRINT / VIEW MODAL (INVOICE & RECEIPT & BOOKING CARD) -->
+  <div class="modal-overlay hidden" id="printViewModal">
+    <div class="modal-box modal-lg print-modal-box">
+      <div class="modal-header no-print">
+        <h3 id="printViewModalTitle">Print Document</h3>
+        <div class="flex-align-center gap-2">
+          <label class="print-format-control no-print">
+            <span>Paper</span>
+            <select id="printFormatSelect" onchange="app.setPrintFormat(this.value)">
+              <option value="a4">A4 Page</option>
+              <option value="thermal">Thermal 80mm</option>
+            </select>
+          </label>
+          <button class="btn btn-gold btn-sm" id="printDocumentButton" onclick="app.triggerPrint()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span id="printButtonLabel">Print Document</span>
+          </button>
+          <button class="modal-close-btn" onclick="app.closeModal('printViewModal')">✕</button>
+        </div>
+      </div>
+      <div class="modal-body p-0">
+        <div class="printable-document" id="printableDocumentContainer">
+          <!-- Dynamically populated invoice or receipt HTML -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER DETAILS MODAL -->
+  <div class="modal-overlay hidden" id="customerDetailsModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="custDetailTitle">Customer Profile</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('customerDetailsModal')">✕</button>
+      </div>
+      <div class="modal-body" id="customerDetailsContent">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-gold" onclick="app.printCustomerProfile()">Print Customer Copy</button>
+        <button class="btn btn-secondary" onclick="app.closeModal('customerDetailsModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION DIALOG MODAL -->
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-box modal-sm">
+      <div class="modal-header">
+        <h3>Confirmation</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('confirmModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalMessage" class="confirm-text">Are you sure you want to delete this record?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="app.closeModal('confirmModal')">Cancel</button>
+        <button class="btn btn-danger" id="confirmActionBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Load expiry-config.js from the app folder, or from ?expiryConfig=path/to/expiry-config.js. -->
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const configuredPath = params.get('expiryConfig') || window.localStorage.getItem('mhm_expiry_config_path');
+      const configPath = configuredPath || 'expiry-config.js';
+      if (configuredPath) window.localStorage.setItem('mhm_expiry_config_path', configuredPath);
+
+      const configScript = document.createElement('script');
+      configScript.src = `${configPath}${configPath.includes('?') ? '&' : '?'}v=${Date.now()}`;
+      configScript.onload = () => {
+        const appScript = document.createElement('script');
+        appScript.src = 'script.js';
+        document.body.appendChild(appScript);
+      };
+      configScript.onerror = () => {
+        window.MARRIAGE_HALL_EXPIRY_DATE = '';
+        const appScript = document.createElement('script');
+        appScript.src = 'script.js';
+        document.body.appendChild(appScript);
+      };
+      document.body.appendChild(configScript);
+    })();
+  </script>
+</body>
+</html>

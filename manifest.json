@@ -1,0 +1,49 @@
+{
+  "name": "Marriage Hall Manager",
+  "short_name": "HallManager",
+  "description": "Professional 100% Offline Marriage Hall Management System for PC, Tablet & Mobile by PK-RajWolrd",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "categories": ["business", "finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Booking",
+      "short_name": "New Booking",
+      "description": "Create new hall reservation",
+      "url": "./index.html#bookings",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Event Calendar",
+      "short_name": "Calendar",
+      "description": "View monthly hall schedule",
+      "url": "./index.html#calendar",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Daily Payments",
+      "short_name": "Payments",
+      "description": "Record advance and dues payments",
+      "url": "./index.html#payments",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

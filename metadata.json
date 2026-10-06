@@ -1,0 +1,6 @@
+{
+  "name": "Marriage Hall Manager",
+  "description": "Complete offline Marriage Hall Management System for bookings, calendar, payments, expenses, catering, decoration, invoices, receipts, WhatsApp notifications, and analytics by PK-RajWolrd.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
